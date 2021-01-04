@@ -1,3 +1,5 @@
+using AzureServiceBus.Repo;
+using AzureServiceBus.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +27,10 @@ namespace AzureServiceBus
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen();
+
+            services.AddTransient<ITransactionRepo, TransactionRepo>();
+            services.AddTransient<IQueueService, QueueService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +40,12 @@ namespace AzureServiceBus
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Azure Service Bus Basic");
+            });
             app.UseRouting();
 
             app.UseAuthorization();
