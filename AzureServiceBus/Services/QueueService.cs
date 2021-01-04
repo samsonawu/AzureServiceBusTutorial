@@ -17,7 +17,7 @@ namespace AzureServiceBus.Services
         {
             _config = config;
         }
-
+        //https://www.youtube.com/watch?v=v52yC9kq0Yg
         public async Task SendMessageAsync<T>(T serviceBusMessage, string queueName)
         {
             var queueClient = new QueueClient(_config.GetConnectionString("AzureServiceBus"), queueName);
